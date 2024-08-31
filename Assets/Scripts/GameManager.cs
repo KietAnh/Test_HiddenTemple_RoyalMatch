@@ -1,20 +1,23 @@
 using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
+    public int numPickaxe { get; private set; } = 0;
+
     public float cellSize = 1;
-    public int numGems = 4;
 
     public Transform stageTrans;
-    public Transform gridCenter;
+    public Transform boardCenter;
     public Transform blockLayer;
+    public Transform floorLayer;
     public Transform gemLayer;
     public GameObject cellPrefab;
+    public GameObject floorPrefab;
     public Transform topLayer;
+    public GameObject pickaxeUIPrefab;
+    public Transform tableHidePoint;
+    public Transform uiTopLayer;
 
     private GridData _gridData;
     private int _gridWidth;
@@ -22,20 +25,17 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     private TableBehaviour _tableBehaviour;
     private int _numGemFound = 0;
+    
 
-    private void Start()
-    {
-        Initialize();
+    //private void Start()
+    //{
+    //    Initialize();
+    //}
 
-        GED.ED.addListener(EventID.OnDestroyBlock, OnDestroyBlock_CheckShowGem);
-    }
-
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-
-        GED.ED.removeListener(EventID.OnDestroyBlock, OnDestroyBlock_CheckShowGem);
-    }
+    //protected override void OnDestroy()
+    //{
+    //    base.OnDestroy();
+    //}
     public void Initialize()
     {
         _gridData = ConfigLoader.GetRecord<StageRecord>(1).gridData;
@@ -44,8 +44,19 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         InitBlockLayer();
         InitGemLayer();
+        InitFloorLayer();
         InitMissingGemTable();
+        //InitStage();
+        InitPickaxeNumUI();
     }
+
+    //public void InitStage()
+    //{
+    //    var stagePrefab = ConfigLoader.GetRecord<StageRecord>(1).stagePrefab;
+    //    var stageObject = Instantiate(stagePrefab);
+
+    //    stageTrans = stageObject.transform;
+    //}
 
     public void InitBlockLayer()
     {
@@ -61,7 +72,21 @@ public class GameManager : SingletonBehaviour<GameManager>
         }
     }
 
-    public void InitGemLayer()  
+    public void InitFloorLayer()
+    {
+        for (int i = 0; i < _gridHeight; i++)
+        {
+            for (int j = 0; j < _gridWidth; j++)
+            {
+                var floorObject = Instantiate(floorPrefab, floorLayer);
+                floorObject.name = "floor-" + i + "-" + j;
+                floorObject.transform.position = IndexToPosition(i, j);
+                //floorObject.GetComponent<BlockBehaviour>().index2D = new Vector2Int(i, j);
+            }
+        }
+    }
+
+    public void InitGemLayer()
     {
         foreach (var gemData in _gridData.gemList)
         {
@@ -75,16 +100,9 @@ public class GameManager : SingletonBehaviour<GameManager>
 
             var gemBehaviour = gemObject.GetComponent<GemBehaviour>();
             gemBehaviour.gemData = gemData;
-            gemBehaviour.index = _gridData.gemList.IndexOf(gemData); 
+            gemBehaviour.index = _gridData.gemList.IndexOf(gemData);
             gemBehaviour.InitHiddenGemIndexList();
         }
-    }
-
-    public Vector2 IndexToPosition(int i, int j)
-    {
-        var xPos = gridCenter.position.x + cellSize * (j - _gridWidth / 2.0f + 0.5f);
-        var yPos = gridCenter.position.y - cellSize * (i - _gridHeight / 2.0f + 0.5f);
-        return new Vector2(xPos, yPos);
     }
 
     public void InitMissingGemTable()
@@ -93,6 +111,20 @@ public class GameManager : SingletonBehaviour<GameManager>
         var tableObject = Instantiate(tablePrefab, stageTrans);
         _tableBehaviour = tableObject.GetComponent<TableBehaviour>();
     }
+
+    public Vector2 IndexToPosition(int i, int j)
+    {
+        var xPos = boardCenter.position.x + cellSize * (j - _gridWidth / 2.0f + 0.5f);
+        var yPos = boardCenter.position.y - cellSize * (i - _gridHeight / 2.0f + 0.5f);
+        return new Vector2(xPos, yPos);
+    }
+
+    public void InitPickaxeNumUI()
+    {
+        var pickaxeNumUIObject = Instantiate(pickaxeUIPrefab, stageTrans);
+        pickaxeNumUIObject.transform.position = new Vector2(0, boardCenter.position.y + cellSize * (_gridHeight / 2.0f));
+    }
+
 
     public void MoveGemToTable(GemBehaviour gem)
     {
@@ -111,16 +143,18 @@ public class GameManager : SingletonBehaviour<GameManager>
         
     }
 
-    #region event
+    
 
-    private void OnDestroyBlock_CheckShowGem(GameEvent gameEvent)
+    public void AddPickaxe()
     {
-        var param = gameEvent.Data as OneParam<Vector2Int>;
-
-
+        numPickaxe += 1;
     }
 
-    #endregion
+    public void ConsumePickaxe()
+    {
+        numPickaxe -= 1;
+    }
+
 }
 
 

@@ -18,13 +18,18 @@ public class BlockBehaviour : MonoBehaviour
 
     void OnMouseDown()
     {
-        var param = new OneParam<Vector2Int>(index2D);
-        GED.ED.dispatchEvent(EventID.OnDestroyBlock, param);
-
-        SelfDestroy();
+        if (GameManager.Singleton.numPickaxe > 0)
+        {
+            GED.ED.dispatchEvent(EventID.OnClickBlock, new OneParam<BlockBehaviour>(this));
+        }
+        else
+        {
+            DevLog.Log("TODO: Notify not enough pickaxe");
+        }
+        
     }
 
-    private void SelfDestroy()
+    public void SelfDestroy()
     {
         Destroy(gameObject);
         // instantiate vfx here...
