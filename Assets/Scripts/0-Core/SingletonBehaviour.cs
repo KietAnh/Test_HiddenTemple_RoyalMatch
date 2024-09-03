@@ -22,11 +22,12 @@ public class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
         Debug.Log("Awake Manager: " + gameObject.name);
         Singleton = this as T;
-        DontDestroyOnLoad(gameObject);  // KIET ADD 220323
+        DontDestroyOnLoad(gameObject);  
     }
 
     protected virtual void OnDestroy()
     {
+        DevLog.Log("Destroy manager");
         Singleton = null;
     }
 }

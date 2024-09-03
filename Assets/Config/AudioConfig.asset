@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b45161144bd5aa40b603750f3d7109e, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: 
+  recordList:
+  - name: click
+    id: 1
+    clip: {fileID: 8300000, guid: b886d2ac748b23941b073d939bac3569, type: 3}
+  - name: break-block
+    id: 2
+    clip: {fileID: 8300000, guid: b950eb54ac1fc9b4392bf45842e91ba7, type: 3}
+  - name: fill-gem
+    id: 3
+    clip: {fileID: 8300000, guid: b99e6705ee54a584f9227186d6ae4c42, type: 3}
+  - name: find-gem
+    id: 4
+    clip: {fileID: 8300000, guid: 05237c4a07f5aa542ba5c2a47bb2f949, type: 3}
+  - name: win
+    id: 5
+    clip: {fileID: 8300000, guid: 6556c1261ea973b488a1fe7c3a3ba0a4, type: 3}
+  - name: reward
+    id: 6
+    clip: {fileID: 8300000, guid: 8235f012432930a4395c98b273136a24, type: 3}
+  - name: bg-music
+    id: 7
+    clip: {fileID: 8300000, guid: 85cbdfd9e6b8a8145885615a2a5e66c1, type: 3}
+  - name: chest-fall
+    id: 9
+    clip: {fileID: 8300000, guid: ae7c3bf620decba4eb8f960453a8c624, type: 3}
+  - name: error
+    id: 10
+    clip: {fileID: 8300000, guid: ef5f189c3cf6c7341ad13a90c7f984f6, type: 3}

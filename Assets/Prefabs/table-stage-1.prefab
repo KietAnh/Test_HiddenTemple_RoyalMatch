@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 347588134224803372}
   - component: {fileID: 822168140149081745}
+  - component: {fileID: 3102304908721248788}
   - component: {fileID: 5352279870757246663}
   m_Layer: 0
   m_Name: table-stage-1
@@ -26,15 +27,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916576725875450651}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.15, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12, y: 2.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3680693257516101044}
   - {fileID: 4216852972585815482}
   - {fileID: 5070910764917180370}
-  - {fileID: 6114027514377506175}
+  - {fileID: 7089554420214900550}
   - {fileID: 4608494572782896812}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,6 +51,23 @@ SortingGroup:
   m_SortingLayer: 0
   m_SortingOrder: 150
   m_SortAtRoot: 0
+--- !u!111 &3102304908721248788
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916576725875450651}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 411eefa71cf522b4fbcbe5895720a3f2, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 411eefa71cf522b4fbcbe5895720a3f2, type: 2}
+  - {fileID: 7400000, guid: 11410d681641e86488a75f81fce72cd1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &5352279870757246663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,9 +82,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missingGemList:
   - {fileID: 4608494572782896812}
-  - {fileID: 6114027514377506175}
+  - {fileID: 7089554420214900550}
   - {fileID: 4216852972585815482}
   - {fileID: 5070910764917180370}
+  _anim: {fileID: 3102304908721248788}
+  _strAnimIn: table-in
+  _strAnimOut: table-out
 --- !u!1 &3338916772259020770
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,7 +353,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0ddc12df9c366a42abe29361f7e7262, type: 3}
---- !u!4 &6114027514377506175 stripped
+--- !u!4 &7089554420214900550 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3943547503917017656, guid: c0ddc12df9c366a42abe29361f7e7262, type: 3}
   m_PrefabInstance: {fileID: 6114027514377506174}

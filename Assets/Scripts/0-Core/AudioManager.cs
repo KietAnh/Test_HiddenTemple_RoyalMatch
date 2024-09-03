@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using DG.Tweening;
 
 public class AudioManager : SingletonTemplate<AudioManager>
 {
@@ -17,6 +18,8 @@ public class AudioManager : SingletonTemplate<AudioManager>
 
     private const int MAX_CACHE_SOURCE = 10;
     private Stack<AudioSource> _sourceCache = new Stack<AudioSource>();
+
+    private long _musicId;
     public void Init()
     {
         isInit = true;
@@ -24,49 +27,16 @@ public class AudioManager : SingletonTemplate<AudioManager>
         soundGroup = new GameObject();
         soundGroup.name = "[SoundGroup]";
         GameObject.DontDestroyOnLoad(soundGroup);
-
-        SetGlobalVolume(null);
-        SetGlobalVibra(null);
-
-        //GED.ResED.addListener(EventID.ResTurnMusic, SetGlobalVolume);
-        //GED.ResED.addListener(EventID.ResTurnSound, SetGlobalVolume);
-        //GED.ResED.addListener(EventID.ResTurnVibra, SetGlobalVibra);
-    }
-    public void OnDestroy()      // refactor, never call
-    {
-        //GED.ResED.removeListener(EventID.ResTurnMusic, SetGlobalVolume);
-        //GED.ResED.removeListener(EventID.ResTurnSound, SetGlobalVolume);
-        //GED.ResED.removeListener(EventID.ResTurnVibra, SetGlobalVibra);
-    }
-    public void SetGlobalVolume(GameEvent gameEvent)
-    {
-        //bool isMusicOn = UserDataService.GetData<bool>(PREF_KEY.MusicOn, true);
-        //globalMusicVolume = isMusicOn ? 1f : 0f;
-        //bool isSoundOn = UserDataService.GetData<bool>(PREF_KEY.SoundOn, true);
-        //globalSoundVolume = isSoundOn ? 1f : 0f;
-
-        //foreach (var sound in _soundPlayingMap)
-        //{
-        //    AudioData soundData = sound.Value;
-        //    if (soundData.sndType == SoundType.Music || soundData.sndType == SoundType.Music3D)
-        //    {
-        //        soundData.source.volume = soundData.baseVolume * globalMusicVolume;
-        //    }
-        //    else
-        //    {
-        //        soundData.source.volume = soundData.baseVolume * globalSoundVolume;
-        //    }
-        //}
-    }
-    public void SetGlobalVibra(GameEvent gameEvent)
-    {
-        //bool isVibraOn = UserDataService.GetData<bool>(PREF_KEY.VibraOn, true);
-        //globalVibra = isVibraOn? 1f : 0f;
     }
 
     public long PlayMusic(string name, float volume = 1f)
     {
-        return PlaySound(name, SoundType.Music, volume, globalMusicVolume * volume, true);
+        if (_soundPlayingMap.ContainsKey(_musicId))
+        {
+            Stop(_musicId);
+        }
+        _musicId = PlaySound(name, SoundType.Music, volume, globalMusicVolume * volume, true);
+        return _musicId;
     }
     public long PlayUIAudio(string name, float volume = 1f)
     {
@@ -95,7 +65,7 @@ public class AudioManager : SingletonTemplate<AudioManager>
         audioData.source.Play();
         if (!isLoop)
         {
-            CoroutineManager.Singleton.delayedCall(audioData.source.clip.length - audioData.source.time + 0.1f, () =>
+            DOVirtual.DelayedCall(audioData.source.clip.length - audioData.source.time + 0.1f, () =>
             {
                 Stop(id);
             });
@@ -123,16 +93,7 @@ public class AudioManager : SingletonTemplate<AudioManager>
     }
     private AudioClip GetClip(string name, SoundType sndType)
     {
-        AudioClip audioClip = null;
-        //if (sndType == SoundType.Music)
-        //{
-        //    string abName = string.Format("aud_{0}", name);
-        //    audioClip = AssetLoadManager.LoadAsset<AudioClip>(abName, name);      // refactor, constant
-        //}
-        //else
-        //{
-        //    audioClip = AssetLoadManager.LoadAsset<AudioClip>("aud_s_clip", name);      // refactor, constant
-        //}
+        AudioClip audioClip = ConfigLoader.GetRecord<AudioRecord>(name).clip;
 
         return audioClip;
     }

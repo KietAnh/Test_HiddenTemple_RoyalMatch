@@ -12,12 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-/// <summary>
-/// GED: gload event dispatcher
-/// lua里也有自己的的事件转发功能，与C#相对独立，主要是为了性能考虑，所以逻辑设计的时候，Lua和C#这边的事件其实是独立的，不相干的
-/// </summary>
-///  
-
 public class GameEventDispatcher
 {
     /// <summary>
